@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="../lib/jquery.min.js"></script>
+    <script src="../lib/echarts.js"></script>
+    <script src="../lib/jquery-asRange.min.js"></script>
+    <script type="text/javascript" src="../lib/maptalks-deckgllayer.min.js"></script>
+    <script src="../lib/chart1a.js"> </script>
+    <script src="../lib/chart1b.js"> </script>
+    <script src="../lib/echarts-gl.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="style5.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks@0.41.1/dist/maptalks.min.js"></script>
+
+    
+    <style>
+        body {
+          background-color: #292929;
+        }
+        body {
+  color: #ffff;
+}
+        
+        </style>
+</head>
+
+<body>
+<!--Nav bar-->
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Dashboard Prototype</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#">Home</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Risk Modelling</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#rawnum">Raw Data (Numerical)</a>
+                        </li>
+                        <li>
+                            <a href="#rawcate">Raw Data (Categorical)</a>
+                        </li>
+                        <li>
+                            <a href="#transcont">Transformed Data (Continuous)</a>
+                        </li>
+                        <li>
+                            <a href="#transcate">Transformed Data (Categorical)</a>
+                        </li>
+                        <li>
+                            <a href="#corrmat">Correlation Matrix</a>
+                        </li>
+                        <li>
+                            <a href="#pacogr">Parralel Coordinate Graph</a>
+                        </li>
+                        <li>
+                            <a href="#iv">Information Value</a>
+                        </li>
+                        <li>
+                            <a href="#gini">Gini Model Performance</a>
+                        </li>
+                        <li>
+                            <a href="#bite">Binomial Test</a>
+                        </li>  
+                        <li>
+                            <a href="#gema">Geo Map</a>
+                        </li>  
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Portfolio Management</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#dadi">The Master Scale& Data Distribution</a>
+                        </li>
+                        <li>
+                            <a href="#cremi">Credit Migration</a>
+                        </li>
+                        <li>
+                            <a href="#risk">Risk Pricing</a>
+                        </li>
+                        <li>
+                            <a href="#opt">Optimisation</a>
+                        </li>
+                        <li>
+                            <a href="#bdd">Bad Debt Distribution</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="list-unstyled CTAs">
+              <li>
+                  <a class="login">Log In</a>
+              </li>
+              <li>
+                  <a class="signup">Sign up</a>
+              </li>
+          </ul>
+        </nav>
+<!--Nav Bar collapsible end hiaaa-->
+<!--Nav ngang start here-->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                            </li>
+                        </ul>
+                    </div>
+<!--SEARCH BOX-->                    
+                <form onsubmit="event.preventDefault()" class="form-inline my-2 my-lg-0"> <input class="form-control mr-sm-2" type="text" placeholder="Search"> <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> </form>
+                </div>
+            </nav>
+<!--Nav horizontal end here-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+<!-- Chart  -->
+
+<div class='container-fluid'>
+<h2> Portfolio Management</h2>
+
+<button type='button' class='btn btn-primary btn-sm sectionName' disabled> The Master Scale & Data Distribution 
+</button>
+<div class='row'>
+    <a name="dadi"></a>
+    <div class='col-sm'>
+        <div id='default_dist' style='height:100%'>Default Distribution</div>
+    </div>
+    <div class='col-sm'>
+        <div id='credit_rate_dist' style='height:435px'>Credit Risk Distribution</div>
+    </div>
+</div>
+
+<div id='masterscale'>
+    <main class="h-100">
+        <div class="container-fluid h-100">
+            <div id="master_scale" style="height: 400px" ></div>
+        </div>
+    </main>
+</div>
+
+<button type='button' class='btn btn-primary btn-sm sectionName' disabled> Credit Mitigation 
+</button>
+
+<div id='creditmiti'>
+    <a name="cremi"></a>
+        <main class="h-100">
+        <div class="container-fluid h-100">
+            <div id="credit_miti" style="height: 400px" ></div>
+        </div>
+    </main> 
+</div>
+
+<!--RISK PRICING GRAPH-->
+<button type='button' class='btn btn-primary btn-sm sectionName' disabled> Risk Pricing 
+</button>
+<div id='riskpricing'>
+    <div class="container"></div>
+    <div id="main1" style="height: 500px; width: 900px"></div>
+<div class="modal fade" id="centralModalFluidSuccessDemo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    style="display: none;" aria-hidden="true"> 
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4" id="exampleModalXlLabel">Detail Loan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Loan Amount</th>
+                            <th scope="col">APR</th>
+                            <th scope="col">PD (annual)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="insite_tr">
+                        <!-- <tr>
+                            <th>1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div class='container-fluid'>
+    <button type='button' class='btn btn-primary btn-sm sectionName' disabled> Optimisation 
+    </button>
+    <h4>Risk Adjusted Return</h4>
+    <div class='row'>
+        <div class='col-sm'>
+            <h5> No Limit Control </h5>
+            <div id="rarnolc" style='height:435px'></div>
+        </div>
+        <div class='col-sm'>
+            <h5> Limit Control Applied </h5>
+            <div id="rarlc" style='height:435px'></div>
+
+        </div>
+    </div>
+
+    <h4>APR</h4>
+    <div class='row'>
+        <div class='col-sm'>
+            <h5> No Limit Control </h5>
+            <div id="APRnoLC" style='height:435px'></div>
+
+        </div>
+        <div class='col-sm'>
+            <h5> Limit Control Applied </h5>
+            <div id="APR" style='height:435px'></div>
+
+        </div>
+    </div>
+
+<button type='button' class='btn btn-primary btn-sm sectionName' disabled>Bad Debt Distribution</button>
+<div class='container-fluid' style='height:900px'>
+            <div id="tooltip"></div>
+            <div style="position: relative; top:30px; left: 30px; float: left; z-index: 10">
+                <label for="head" style="color:white;">Size</label>
+                <input type="range" min="1" max="100" value="20" class="slider" id="myRange"><br>
+
+            </div>
+            <div id="bad_debt_distribution" style='height: 100%;'></div>
+<script src="../lib/default_dist.js"></script>
+<script src="../lib/credit_rate_dist.js"></script>
+<script src="../lib/master_scale.js"></script>
+<script src="../lib/credit_miti.js"></script>
+<script src="../lib/chart1.js"></script>
+<script src="../lib/RARnoLC.js"></script>
+<script src="../lib/rarlc.js"></script>
+<script src="../lib/APRnoLC.js"></script>
+<script src="../lib/LoanPD-AR.js"></script>
+<script type="text/javascript"  src="../lib/dataGeo.js"></script>
+<script type="text/javascript" src="../lib/dataConnect.js"></script>
+<script src="../lib/bad_debt_distribution.js"></script>
+
+
+</div>
+
+
+<!-- Site footer -->
+  <!-- Site footer -->
+  <!-- Site footer -->
+  <footer class="container-fluid bg-grey py-5">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-6">
+             <div class="row">
+                <div class="col-md-6 ">
+                   <div class="logo-part">
+                      <img src="logo-epay.svg" >
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="col-md-6">
+             <div class="row">
+                <div class="col-md-6 px-4">
+                   <h6>More Information</h6>
+                   <div class="row ">
+                      <div class="col-md-6">
+                         <ul>
+                            <li> <a href="#"> Home</a> </li>
+                            <li> <a href="#"> About</a> </li>
+                            <li> <a href="#"> Team</a> </li>
+                         </ul>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-md-6 ">
+                   <form class="form-footer my-3">
+                      <input type="text"  placeholder="search here...." name="search">
+                      <input type="button" value="Go" >
+                   </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    </div>
+    </footer>
+</body>
+</html>
